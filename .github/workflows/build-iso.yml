@@ -49,9 +49,18 @@ jobs:
       - name: Run installer
         run: bash create-install.sh
 
-      # Save ISO to GitHub
+      # Runs the checksums of Source and Generated ISOs
+      - name: Calculates Checksums
+        run: |
+          sha256sum *.iso > checksum.sha256
+          echo "Checksums are:"
+          cat checksum.sha256
+
+      # Save ISO and Checksums to GitHub
       - name: Upload ISO artrfact
         uses: actions/upload-artifact@v3
         with:
           name: ubuntu-autoinstall
-          path: ubuntu-24.04.1-live-server-autoinstall.iso
+          path: |
+            ubuntu-24.04.1-live-server-autoinstall.iso
+            checksums.sha256
