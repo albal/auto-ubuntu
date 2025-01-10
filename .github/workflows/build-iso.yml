@@ -30,3 +30,11 @@ jobs:
       # Runs the installer that builds the ISO
       - name: Run installer
         run: bash create-install.sh
+
+
+      # Save ISO to GitHub
+      - name: Upload ISO artrfact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ubuntu-autoinstall
+          path: ubuntu-24.04.1-live-server-autoinstall.iso
