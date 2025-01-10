@@ -23,14 +23,31 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Runs a single command to downnload the Ubuntu ISO image
+      # 1) Attempt to restore the ISO from cache
+      - name: Restore ISO from cache
+        uses: actions/cache@v3
+        id: iso-cache
+        with:
+          path: ubuntu-24.04.1-live-server-amd64.iso
+          key: ${{ runner.os }}-ubuntuiso-24.04.1
+
+      # 2) Only download the ISO if it's not already cached
       - name: Fetch Ubuntu ISO
-        run: wget https://releases.ubuntu.com/noble/ubuntu-24.04.1-live-server-amd64.iso
+        if: steps.iso-cache.outputs.cache-hit != 'true'
+        run: |
+          wget https://releases.ubuntu.com/noble/ubuntu-24.04.1-live-server-amd64.iso -O ubuntu-24.04.1-live-server-amd64.iso
+
+      # 3) Re-save the ISO to the cache if it was just downloaded
+      - name: Update ISO cache
+        if: steps.iso-cache.outputs.cache-hit != 'true'
+        uses: actions/cache@v3
+        with:
+          path: ubuntu-24.04.1-live-server-amd64.iso
+          key: ${{ runner.os }}-ubuntuiso-24.04.1
 
       # Runs the installer that builds the ISO
       - name: Run installer
         run: bash create-install.sh
-
 
       # Save ISO to GitHub
       - name: Upload ISO artrfact
