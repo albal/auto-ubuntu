@@ -7,7 +7,7 @@
 set -e
 
 # Variables
-ISO_NAME="$HOME/ubuntu-24.04.1-live-server-amd64.iso"
+ISO_NAME="$(pwd)/ubuntu-24.04.1-live-server-amd64.iso"
 ISO_CUSTOM="$(pwd)/ubuntu-24.04.1-live-server-autoinstall.iso"
 WORK_DIR="$(pwd)/ubuntu-autoinstall"
 MOUNT_DIR="$WORK_DIR/mount"
@@ -16,7 +16,7 @@ AUTOINSTALL_FILE="autoinstall.yaml"
 
 # Check for required files
 if [[ ! -f "$ISO_NAME" ]]; then
-    echo "ISO file '$ISO_NAME' not found in the home directory."
+    echo "ISO file '$ISO_NAME' not found in the current directory."
     exit 1
 fi
 
