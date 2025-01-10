@@ -1,0 +1,34 @@
+autoinstall:
+  version: 1
+  ssh:
+    install-server: true
+    allow-pw: true
+  storage:
+    layout:
+      name: direct
+  locale: en_GB
+  keyboard:
+    layout: gb
+  packages:
+    - net-tools
+    - p7zip-full
+    - curl
+    - sudo
+  network:
+    version: 2
+    ethernets:
+      all-eth:
+        match:
+          name: "*"
+        dhcp4: true
+  user-data:
+    package_update: true
+    package_upgrade: true
+    timezone: Europe/London
+    users:
+      - name: ubuntu
+        groups: [adm, sudo]
+        lock-passwd: false
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        shell: /bin/bash
+        passwd: $6$iZbBCoJewB.nf.2E$D6gnrlepPBlq2GEccOUWo/43R6i5hwsR3WL91cNEXIKFXVRHUxC.OuZq/y5xePkB64rkEdH8T7SsyKPH1.YrZ1
